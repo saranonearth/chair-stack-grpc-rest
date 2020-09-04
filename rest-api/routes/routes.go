@@ -24,4 +24,22 @@ var routes = Routes{
 		"/",
 		handlers.Index,
 	},
+	Route{
+		"addGarment",
+		"GET",
+		"/add-garment",
+		handlers.AddGarment,
+	},
+	Route{
+		"getAllGarment",
+		"GET",
+		"/all-garments",
+		handlers.GetAllGarments,
+	},
+	Route{
+		"clearList",
+		"GET",
+		"/clear",
+		handlers.ClearList,
+	},
 }
