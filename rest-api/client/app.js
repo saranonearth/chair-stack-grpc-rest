@@ -1,34 +1,13 @@
-import { GarmentServiceClient, GetAllRequest, Item, ClearRequest } from './proto/garmentActions_grpc_web_pb'
+import axios from 'axios'
+
+/*Base endpoint of the REST api*/
+const BASE_ENDPOINT = "http://localhost:1366"
 
 
-/* 
-Connecting to the GarmentService by creating a instance
-of GarmentServiceClient
-*/
-
-const garmentClient = new GarmentServiceClient("http://localhost:9003")
-
-
-
-console.log("gRPC Client Running")
+console.log("REST Client Running")
 const URI_TSHIRT = "https://i.ibb.co/qYz06y9/t-shirts.png";
 const URI_SWEATSHIRT = "https://i.ibb.co/bgKQYNh/tracksuit.png"
 const URI_PANT = "https://i.ibb.co/cbFffwV/pants.png"
-
-
-/*
- Util functions
-*/
-
-const giveMeListofObjects = (data) => {
-    let result = [];
-
-    data.map(item => {
-        result = [{ id: item[0], garment: item[1] }, ...result]
-    })
-
-    return result
-}
 
 
 /*
@@ -45,15 +24,10 @@ getall.addEventListener('click', () => {
 
 const checkChair = () => {
 
-    let req = new GetAllRequest();
+    axios.get(`${BASE_ENDPOINT}/all-garments`).then(RESPONSE => {
+        console.log("FETCH ALL GARMENTS RESPONSE", RESPONSE)
 
-
-    garmentClient.allGarments(req, {}, (err, res) => {
-        if (err) return alert("ERROR while fetching garments!")
-
-        const data = giveMeListofObjects(res.array[0]);
-
-        console.log(data)
+        let data = RESPONSE.data.reverse();
 
         const stack = document.getElementById('chairItems')
         stack.innerHTML = "";
@@ -78,7 +52,11 @@ const checkChair = () => {
                         </div>`;
             }
         })
+
+    }).catch(err => {
+        alert("Error while getting all garments", err)
     })
+
 
 }
 
@@ -103,23 +81,20 @@ pant.addEventListener('click', () => {
     addGarment('pant')
 })
 
+
+
 const addGarment = (item) => {
-    let req = new Item();
-    req.setGarment(item);
 
-    garmentClient.addGarment(req, {}, (err, res) => {
-        if (err) return alert("ERROR while adding garment!")
+    //Fetching from /add-garment
 
-        const data = giveMeListofObjects(res.array[0]);
-
-        console.log(data)
+    axios.get(`${BASE_ENDPOINT}/add-garment?garment=${item}`).then(RESPONSE => {
+        console.log("ADD GARMENT RESPONSE ", RESPONSE)
+        let data = RESPONSE.data.reverse()
 
         const stack = document.getElementById('chairItems')
         stack.innerHTML = "";
 
         data.map(item => {
-            console.log(item.garment)
-
             switch (item.garment) {
                 case "tshirt":
                     stack.innerHTML = stack.innerHTML + `<div class="garment">
@@ -137,8 +112,11 @@ const addGarment = (item) => {
                         </div>`;
             }
         })
-
+    }).catch(err => {
+        alert("Error while adding garment", err)
     })
+
+
 }
 
 /*
@@ -154,22 +132,21 @@ wash.addEventListener('click', () => {
 })
 
 const clearChair = () => {
-    let req = new ClearRequest()
 
+    axios.get(`${BASE_ENDPOINT}/clear`).then(RESPONSE => {
+        console.log(RESPONSE)
 
-    garmentClient.clearList(req, {}, (err, res) => {
-        console.log(err)
-        console.log(res)
+        const stack = document.getElementById('chairItems')
+        stack.innerHTML = "";
+
+        const yay = document.getElementById('yay')
+
+        yay.style.display = 'block';
+
+        setTimeout(() => {
+            yay.style.display = 'none'
+        }, 2000)
+    }).catch(err => {
+        alert("Error while clearing", err)
     })
-
-    const stack = document.getElementById('chairItems')
-    stack.innerHTML = "";
-
-    const yay = document.getElementById('yay')
-
-    yay.style.display = 'block';
-
-    setTimeout(() => {
-        yay.style.display = 'none'
-    }, 2000)
 }

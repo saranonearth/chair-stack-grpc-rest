@@ -1,0 +1,5 @@
+/dist
+/node_modules
+/proto/garmentActions_grpc_web_pb.js
+/proto/garmentActions_pb.js
+/.cache
