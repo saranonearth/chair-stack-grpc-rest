@@ -14,7 +14,7 @@
 
 <body>
     <div class="do-laundry">
-        <div><img class="wash-icon" src="./assets/wash.png" alt=""></div>
+        <div id="wash"><img class="wash-icon" src="./assets/wash.png" alt=""></div>
     </div>
     <div class="container">
 
@@ -26,13 +26,13 @@
                     </div>
                     <div class="items">
                         <div class="item">
-                            <div><img class="icons shirt" src="./assets/tshirt.svg" alt=""></div>
+                            <div id="tshirt"><img class="icons shirt" src="./assets/tshirt.svg" alt=""></div>
                         </div>
                         <div class="item">
-                            <div><img class="icons" src="./assets/tracksuit.svg" alt=""></div>
+                            <div id="sweatshirt"><img class="icons" src="./assets/sweatshirt.svg" alt=""></div>
                         </div>
                         <div class="item">
-                            <div><img class="icons" src="./assets/pants.svg" alt=""></div>
+                            <div id="pant"><img class="icons" src="./assets/pants.svg" alt=""></div>
                         </div>
                     </div>
                 </div>
@@ -42,27 +42,23 @@
             </div>
 
             <div class="section-two">
-                <div class="listitems">
-                    <div class="garment">
-                        <div><img class="icons shirt" src="./assets/tshirt.svg" alt=""></div>
-                    </div>
-                    <div class="garment">
-                        <div><img class="icons shirt" src="./assets/pants.svg" alt=""></div>
-                    </div>
-                    <div class="garment">
-                        <div><img class="icons shirt" src="./assets/tshirt.svg" alt=""></div>
-                    </div>
-                    <div class="garment">
-                        <div><img class="icons shirt" src="./assets/tracksuit.svg" alt=""></div>
-                    </div>
+                <div class="listitems" id="chairItems">
+
                 </div>
-                <div class="chair"><img class="chair-img" src="./assets//chair.svg" alt=""></div>
+                <div class="chair"><img class="chair-img" src="./assets//chair.svg" alt="">
+                    <p id="yay" class="note show">yay :3</p>
+                </div>
             </div>
         </div>
 
 
 
     </div>
+    <div class="footer">
+        <p>gRPC Client</p>
+    </div>
+
+    <script src="./app.js"></script>
 
 </body>
 
