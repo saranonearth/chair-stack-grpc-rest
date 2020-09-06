@@ -39,10 +39,39 @@ func (addservice) AddGarment(_ context.Context, in *proto.Item) (*proto.ItemList
 	fmt.Println(newList.GetList())
 	return &proto.ItemList{List: newList.List}, nil
 }
+func (addservice) ClearList(_ context.Context, in *proto.ClearRequest) (*proto.ClearResponse, error) {
+	fmt.Println("Clear List Called")
+	store.Clear()
+
+	return &proto.ClearResponse{}, nil
+
+}
+
+func (addservice) AllGarments(_ context.Context, in *proto.GetAllRequest) (*proto.ItemList, error) {
+
+	list := store.GetAllItems()
+
+	fmt.Println("Full List", list)
+
+	newList := proto.ItemList{}
+
+	newList.List = []*proto.Item{}
+
+	for _, item := range list {
+		newItem := proto.Item{
+			ID:      (int32)(item.ID),
+			Garment: item.Garment,
+		}
+		newList.List = append(newList.List, &newItem)
+	}
+
+	return &proto.ItemList{List: newList.List}, nil
+
+}
 
 func main() {
 	server := grpc.NewServer()
-	proto.RegisterAddServiceServer(server, addservice{})
+	proto.RegisterGarmentServiceServer(server, addservice{})
 
 	listener, err := net.Listen("tcp", ":5055")
 
@@ -53,6 +82,7 @@ func main() {
 	go func() {
 		log.Fatal("Serving gRPC:", server.Serve(listener).Error())
 	}()
+
 	grpcWebServer := grpcweb.WrapServer(server)
 	httpServer := &http.Server{
 		Addr: ":9003",

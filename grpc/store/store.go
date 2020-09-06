@@ -39,5 +39,6 @@ func GetAllItems() ItemList {
 
 //Clear the list
 func Clear() {
+	itemCount = 0
 	list = make(ItemList, 0)
 }

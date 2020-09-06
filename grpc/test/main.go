@@ -15,6 +15,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	client := proto.NewAddServiceClient(conn)
+	client := proto.NewGarmentServiceClient(conn)
 	client.AddGarment(context.Background(), &proto.Item{Garment: "Shirt"})
+	// client.ClearList(context.Background(), &proto.ClearRequest{})
+	// client.AllGarments(context.Background(), &proto.GetAllRequest{})
+
 }
